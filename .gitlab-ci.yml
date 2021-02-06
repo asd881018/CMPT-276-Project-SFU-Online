@@ -1,0 +1,5 @@
+deploy:
+  stage: deploy
+  script:
+  - gem install dpl
+  - dpl --provider=heroku --app=<app_id> --api-key=$d8bc7850-8db5-46ff-abd7-7c9fcbc7cc56
