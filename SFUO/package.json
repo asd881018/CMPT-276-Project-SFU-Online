@@ -1,0 +1,15 @@
+{
+  "name": "sfuo",
+  "version": "1.0.0",
+  "description": "sfuo application",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://csil-git1.cs.surrey.sfu.ca/hello-world/project"
+  },
+  "author": "",
+  "license": "ISC"
+}
