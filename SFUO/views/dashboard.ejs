@@ -1,18 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<h1 class="mt-4">Dashboard</h1>
-<p class="lead mb-3">Welcome <%=user%></p>
+<head>
+<style>
+.myDivision{
+    width:1000px;
+    border: 10px outset rgb(255, 255, 255);
+    background-color : red;
+    text-align:start;
+    clear: both;
+        
+}
+.myDivision input{
+    width:100%;
+    clear: both;
+}
+</style>
 
+</head>
+<body>
+
+
+    <h1 class="mt-4">Welcome <%=user%></h1>
+   
+
+    <p class="lead mb-3">Please edit your personal information</p>
+
+     <a href= "/users/messagebox" class= "btn btn-secondary">Message</a>
+     <a href= "/users/channel" class= "btn btn-secondary">Group Channel</a>
+
+<div class= "myDivision">
+    <h2>
+        Customize Your Personal Profile
+    </h2>
+    <h5>
+        Please fill in the following fields below
+    </h5>
+</div>
+
+
+<div class= "myDivision">
+    <p id="first"></p>
+    <form id="entername">
+     First name:<input type="text" id="firstname"/><br/>
+     Last name: <input type ="text" id= "lastname"/><br/>
+     Username: <input type ="text" id="username"/><br/>
+     Biography: <input type ="text" id= "biography"/><br/>
+     Current Year in University: <input type= "number" id="year"/><br/>
+     Courses Enrolled in:<input type ="text" id="courses"/><br/>
+
+     <input type="button" value="Submit" onclick="displayForm();"/>
+    </form>
+
+
+
+</div>
+ <script>
+ 
+ function displayForm(){
+ var welcomeMsg = document.getElementById('first'); //p id welcome
+ var name = document.getElementById('firstname'); //username id
+ var formContent = document.getElementById('entername'); //form id
+ 
+ welcomeMsg.innerHTML = "Welcome "+name.value+ " "+lastname.value+ "."+"Your new username is " +username.value+"<br/>";
+ 
  
 
+ 
+ formContent.innerHTML = "";
+ }
+ 
+ </script>
+ 
+</head>
 <body>
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body text-center">
+        <a href="/users/logout" class="btn btn-secondary">Logout</a>
+
+    </div>
+
+  </div>
+  </div>
+
+
 
 <script src="app.js"></script>
 
 
-<a href="/users/logout" class="btn btn-secondary">Logout</a>
-<a href= "/users/messagebox" class= "btn btn-secondary">Message</a>
+
 
 
 </body>
