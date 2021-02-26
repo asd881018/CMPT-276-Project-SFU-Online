@@ -8,6 +8,10 @@ router.get('/login', checkAuthenticated, (req,res) => res.render('login')); // r
 router.get('/register', checkAuthenticated, (req,res) => res.render('register')); // renders register page
 
 router.get('/dashboard', checkNotAuthenticated, (req,res) => res.render('dashboard',{user: req.user.name })); // renders dashboard/account
+// if we need to bypass to dashboard, comment out checkNotAuthenticated
+
+//messagebox
+router.get('/messagebox', (req, res) => res.render('messagebox'));
 
 router.get('/logout',(req,res)=>{ // renders login page after logging out
 	req.logout();
