@@ -15,6 +15,8 @@ const passport = require('passport');
 const initializePassport = require('./passportConfig');
 initializePassport(passport);
 
+// group loading
+app.use(express.static(__dirname + '/views'));
 
 // function to load toMessage which launches the server.js file 
 function temp() {

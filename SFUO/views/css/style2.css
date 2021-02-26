@@ -1,0 +1,173 @@
+body {
+	display: grid;
+	place-items: center;
+}
+
+
+ul {
+	list-style: none;
+}
+li {
+	list-style: none;
+}
+
+/* Channel Page */
+
+.channel-container {
+	position: fixed;
+	top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+	display: grid;
+	grid:
+		'channels channel-title' 71px
+		'channels-list discussions' 1fr
+		'block channel-form' 78px
+		/ 275px 1fr;
+	overflow: hidden;
+}
+
+.channels {
+	display: grid;
+	align-items: center;
+	padding: 25px 20px;
+	background: #3a3a3a;
+	grid-area: channels;
+	border-radius: 10px 0 0 0;
+	box-shadow: 0 1px 3px -1px rgba(0,0,0,0.75);
+	z-index: 1;
+}
+
+.channels-list {
+	background: #3a3a3a;
+	grid-area: channels-list;
+	padding: 20px 0 0 0;
+}
+
+.block {
+	display: grid;
+	grid: 40px / 40px;
+	align-content: center;
+	background: #3a3a3a;
+	grid-area: block;
+	border-top: 1px solid rgba(0,0,0,0.25);
+	border-radius: 0 0 0 10px;
+	padding: 0 15px;
+}
+
+
+.channel-title {
+	background: #3a3a3a;
+	display: grid;
+	align-content: center;
+	border-radius: 0 10px 0 0;
+	box-shadow: 0 1px 3px -1px rgba(0,0,0,0.75);
+	grid-area: channel-title;
+	z-index: 1;
+	padding: 0 20px;
+}
+
+
+.channel-form {
+	background: #3a3a3a;
+	border-radius: 0 0 10px 0;
+	box-shadow: 0 1px 3px 1px rgba(0,0,0,0.75);
+}
+
+.discussions {
+	grid-area: discussions;
+	background-color: #313131;
+	padding: 30px;
+	overflow-y: scroll;
+}
+
+.discussions .message {
+	padding: 10px;
+	margin-bottom: 15px;
+	background-color: #e6e9ff;
+	border-radius: 5px;
+	overflow-wrap: break-word;
+}
+
+
+.channel-form {
+	display: grid;
+	grid-template-columns: 12fr 1fr;
+	grid-gap: 15px;
+	grid-area: channel-form;
+	padding: 20px 30px;
+}
+
+.channel-form input [type='text'] {
+	font-size: 16px;
+	padding: 5px;
+}
+
+.channel-form button {
+	width: 77px;
+}
+
+
+/* Join Page */
+.join-container {
+	max-width: 500px;
+	margin: 80px auto;
+	color: #fff;
+}
+
+.join-header {
+	text-align: center;
+	padding: 20px;
+	background: var(--dark-color-a);
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.join-main {
+	padding: 30px 40px;
+	background: var(--dark-color-b);
+}
+
+.join-main p {
+	margin-bottom: 20px;
+}
+
+.join-main .form-control {
+	margin-bottom: 20px;
+}
+
+.join-main label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.join-main input[type='text'] {
+	font-size: 16px;
+	padding: 5px;
+	height: 40px;
+	width: 100%;
+}
+
+.join-main select {
+	font-size: 16px;
+	padding: 5px;
+	height: 40px;
+	width: 100%;
+}
+
+.join-main .btn {
+	margin-top: 20px;
+	width: 100%;
+}
+
+@media (max-width: 700px) {
+	.chat-main {
+		display: block;
+	}
+
+	.chat-sidebar {
+		display: none;
+	}
+}

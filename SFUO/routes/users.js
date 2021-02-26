@@ -10,8 +10,15 @@ router.get('/register', checkAuthenticated, (req,res) => res.render('register'))
 router.get('/dashboard', checkNotAuthenticated, (req,res) => res.render('dashboard',{user: req.user.name })); // renders dashboard/account
 // if we need to bypass to dashboard, comment out checkNotAuthenticated
 
-//messagebox
+//messagebox, redirects you to message system
 router.get('/messagebox', (req, res) => res.render('messagebox'));
+
+//group
+router.get('/channel', (req, res) => res.render('channel'));
+
+// clicking on channel page redirects you to a group page with desired name
+router.get('/channel_page', (req, res) => res.render('channel_page'));
+
 
 router.get('/logout',(req,res)=>{ // renders login page after logging out
 	req.logout();
