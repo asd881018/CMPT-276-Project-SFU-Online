@@ -71,5 +71,25 @@ In the event of school being taught online due to Covid-19, students are unable 
     - Create public/private groups
     - Comment on the Discussion board
 
+**Instructions to run code**
+    - cd into project/SFUO
+    - type "node app.js" to run program
+
+**Implemented Features**
+    - Login and Registration form
+    - Messaging interface
+    - Group channels
+    - Dashboard
+
+**Features Planned**
+    - Hosting postgres on Heroku
+    - Refactoring code
+    - All features accessing the same database
+    - Video features
+    - Updating UI interface
+
+
+
+
 GitLab URL: https://csil-git1.cs.surrey.sfu.ca/hello-world
 (Group ID: 8132)
