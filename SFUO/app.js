@@ -25,6 +25,7 @@ function temp() {
 }
 
 
+
 //EJS
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
@@ -45,7 +46,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-
 
 
 //Routes
