@@ -24,6 +24,10 @@ const authenticateUser = (email, password, done)=>{
 					}
 
 					if(isMatch){
+						//*************************Message****************************** */
+						const messagename = require('./app.js');
+						messagename.updateUsername(email);
+						//************************************************************** */
 						return done(null, user); 
 					}else{
 						return done(null, false, {message: "Password is not correct"}); 

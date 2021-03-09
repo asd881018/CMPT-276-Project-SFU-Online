@@ -15,15 +15,68 @@ const passport = require('passport');
 const initializePassport = require('./passportConfig');
 initializePassport(passport);
 
+
 // group loading
 app.use(express.static(__dirname + '/views'));
 
-// function to load toMessage which launches the server.js file 
-function temp() {
-	const message = require("./message/server.js");
-	message.toMessage;
-}
 
+
+/*****************************************************MESSAGES********************************************************/
+var username = "ERROR";
+function updateUsername(temp){
+	username = temp;
+}
+module.exports.updateUsername = updateUsername;
+
+// app.use(express.static(__dirname + './views/main.js'));
+app.use(express.static(__dirname + './views/css/stylemessage.css'));
+
+const path = require('path');
+const http = require('http');
+const socketio = require('socket.io');
+const formatMessage = require('./messages')   
+
+//postgres stuff
+// const {messagepool} = require ('./message/utils/dbConfig');
+
+const server = http.createServer(app);
+const io = socketio(server);
+const botname = 'Notice';
+
+//run when connection
+io.on('connection', socket => {
+	
+	socket.on('joinRoom', ({username, room}) => {
+		console.log("New Connection");
+		//emits to single connecting user
+		socket.emit('message', formatMessage(botname, 'Welcome to SFUO messaging'));
+
+		//broadcast to everyone except the connecting user
+		socket.broadcast.emit('message', formatMessage(botname, 'Someone connected'));
+	});
+
+
+	//listening for chatMessage
+	socket.on('chatMessage', (msg) =>{
+		io.emit('message', formatMessage(username, msg));
+		var time = formatMessage(username, msg).time;
+		pool.query(
+			`INSERT INTO allmessages (sender, receiver, message, time)
+			Values ($1, $2, $3, $4)`,[username, username, msg, time],
+			(err, results) =>{
+				if(err){console.log(err)}
+				// console.log(results.rows);
+			}
+		)
+	});
+
+	socket.on('disconnect', () => {
+		//emit to all users
+		io.emit('message', formatMessage(botname, 'Someone disconnected'));
+	});
+
+});
+/*********************************************************************************************************************/
 
 
 //EJS
@@ -52,6 +105,7 @@ app.use(flash());
 app.use('/',require('./routes/index')); // must use this in tandem with router.get in index.js
 
 app.use('/users', require('./routes/users')); // to go to this link, go to users/login, users/register
+
 
 
 // register page login
@@ -128,6 +182,5 @@ app.post('/users/login', passport.authenticate('local',{
 
 const PORT = process.env.PORT || 8000;
 
-app.listen(PORT,console.log('Server started on port ${PORT}'));
-
-module.exports.temp = temp();
+// app.listen(PORT,console.log('Server started on port ${PORT}'));
+server.listen(PORT, console.log(`server running on port ${PORT}`));
