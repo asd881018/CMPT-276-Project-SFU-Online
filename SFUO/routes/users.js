@@ -1,5 +1,6 @@
 const express = require('express'); // bring express module
 const router = express.Router();
+const {v4: uuidv4 } = require('uuid'); // import a certain version of uuid (v4), set and import uuid
 
 //Login
 router.get('/login', checkAuthenticated, (req,res) => res.render('login')); // renders login page

@@ -14,34 +14,37 @@
 </head>
 
 <body>
+
   <div class="channel-container">
     <div class="channel-title">
-      <h5>SFU Online Discussion Board</h5>
+      <h5><%=name%></h5>
     </div>
 
-
-      <!-- <form class="discussions"></form> -->
-      <div class="discussions" id="generate-here">
-        <ul>Welcome</ul>
+      <div class="discussions">
+        <a href="http://localhost:3000/users/new/<%=name%>" > New message</a>
+        <h1><%=title%></h1>
+        <ul>
+          <% for(const msg of messages) {%>
+          <li>
+            <div><sub><%=format(msg.added, {addSuffix: true})%></sub></div>
+            <div><strong><%=msg.user%></strong></div>
+            <%=msg.text%>
+          </li>
+          <% } %>
+        </ul>
       </div>
-
 
 
       <div class="channels">
         <h5><i class="fas fa-users"></i> Channels</h5>
       </div>
-      <div class="channels-list" id="generate-here">
+      <div class="channels-list">
         <ul class="channels-list" id = "list_channel">
 
         </ul>
       </div>
-      
-      <div class="block">
-      </div>
 
-      <div class="channel-form">
-        <input id="msg" type="text" placeholder="type a message">
-        <button class="btn" onclick="create()"><i class="fas fa-paper-plane"></i> Post</button>
+      <div class="block">
       </div>
 
 
@@ -55,15 +58,9 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
     integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
     crossorigin="anonymous"></script>
+
   <script>
-    function create() {
-      var text = document.getElementById("msg").value;
-      var newUl = document.createElement("ul");
-      newUl.innerHTML = text;
-      document.getElementById("generate-here").appendChild(newUl);
-    }
-  </script>
-  <script>
+
     readChannels();
     async function readChannels() {
         try{
@@ -75,7 +72,7 @@
             {
                 console.log(t)
                 var ul = document.createElement("ul")
-                ul.innerHTML += "<a href=channel_page>" + t.channel_name + "</a>";
+                ul.innerHTML += "<a href = http://localhost:3000/users/channel_page/" + t.channel_name +">" + t.channel_name + "</a>"
                 list_channel.appendChild(ul)
             })
         }
