@@ -34,7 +34,7 @@ app.use(express.static(__dirname + './views/css/stylemessage.css'));
 const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
-const formatMessage = require('./messages')   
+const formatMessage = require('./messages')
 
 //postgres stuff
 
@@ -45,7 +45,7 @@ const botname = 'Notice';
 
 //run when connection
 io.on('connection', socket => {
-	
+
 	socket.on('joinRoom', ({username, room}) => {
 		console.log("New Connection");
 		//emits to single connecting user
@@ -84,7 +84,7 @@ const { ExpressPeerServer } = require('peer'); // import peer
 const peerServer = ExpressPeerServer(server, { // using peer with express to get functionality
 
   debug: true
-}); 
+});
 
 app.use(express.static('public')); //accesses public folder
 
@@ -99,7 +99,7 @@ app.get('/room', (req, res) =>{
 // the root url takes you to page where it renders the room.ejs file
 app.get('/:room', (req, res) =>{ // /:room is a parameter
 	res.render('room', {roomId: req.params.room }) // roomID: is the uuid of the room
-}) 
+})
 
 // connect to socket io
 io.on('connection', socket => {
@@ -108,7 +108,7 @@ io.on('connection', socket => {
 		socket.to(roomId).broadcast.emit('user-connected', userId);// tells that we have a user connected and tells system we have a userID
 		socket.on('message', message =>{ // will recieve the message, (function with message params)
 			io.to(roomId).emit('createMessage', message); // send this message to the joined room, emit a message -> (in script.js under // receive msg)
-		}) 
+		})
 
 	})
 })
@@ -172,7 +172,7 @@ app.post('/users/register', async (req, res) =>{
 	}else{
 		//Form validation has passed, hashing password using bcyrpt
 
-		let hashedPassword = await bcrypt.hash(password, 10); 
+		let hashedPassword = await bcrypt.hash(password, 10);
 		console.log(hashedPassword);
 
 		pool.query(
@@ -198,13 +198,13 @@ app.post('/users/register', async (req, res) =>{
 							}
 							console.log(results.rows);
 							req.flash('success_msg',"You are now registered. Please log in"); // once registered
-							res.redirect("/users/login"); // redirect to login page 
+							res.redirect("/users/login"); // redirect to login page
 						}
 					);
 				}
 			}
 		);
-	} 
+	}
 });
 
 /*******************************************Dashboard*************************************************/
@@ -233,7 +233,7 @@ app.post("/users/dashboard", async (req,res)=>{
 	if (errors.length > 0){
 		res.render('dashboard', {errors});
 	}
-	
+
 	pool.query (
 		`INSERT INTO info (firstname, lastname, username, biography, year, courses)
 		VALUES ($1, $2, $3, $4, $5, $6)`,[firstname,lastname,username, biography, year, courses]
@@ -246,10 +246,71 @@ app.post("/users/dashboard", async (req,res)=>{
 /*******************************************************Groups and Channels*****************************************/
 //Routes
 app.use('/',require('./routes/index')); // must use this in tandem with router.get in index.js
+app.use('/users', require('./routes/users'));
+var bodyParser = require('body-parser');
 
-app.use('/users', require('./routes/users')); // to go to this link, go to users/login, users/register
+// create application/json parser
+var jsonParser = bodyParser.json();
+
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 
+//Create new channel
+ app.post("/users/channel", jsonParser, async (req, res) => {
+		try {
+				const { channel_name } = req.body;
+				console.log("body" + channel_name);
+				const createChannel = await pool.query("INSERT INTO channel (channel_name) VALUES ($1::varchar) ON CONFLICT (channel_name) DO NOTHING",
+						[channel_name]);
+				res.json(createChannel.rows[0]);
+		} catch (err) {
+				console.error(err.message)
+		}
+});
+
+
+//ROUTES
+//Get all channel
+app.get("/users/channel_list", async (req, res) => {
+		try {
+				const allChennel = await pool.query("SELECT * FROM channel");
+				res.json(allChennel.rows);
+				const rows = allChennel.rows
+				res.send(JSON.stringify(rows))
+		} catch (err) {
+				console.error(err.message);
+		}
+});
+
+//Store dicussion board's message to database
+app.post("/users/channel_page/:channel_name", jsonParser, async (req, res) => {
+		const { channel_name } = req.params;
+		const { sender } = req.body;
+		const { message } = req.body;
+
+		try {
+				const newMessage = await pool.query("INSERT INTO discussion_board (channel_name, sender, message) VALUES ($1::VARCHAR,$2::VARCHAR, $3::VARCHAR)",
+						[channel_name, sender, message]);
+		} catch (err) {
+				console.error(err.message);
+		}
+})
+
+
+
+//Get message from database with specific channel_name
+app.get("/users/:channel_name", async (req, res) => {
+		const { channel_name } = req.params;
+		try {
+				const allMessage = await pool.query("SELECT * FROM discussion_board WHERE channel_name = $1", [channel_name]);
+				res.json(allMessage.rows);
+				const rows = allMessage.rows
+				res.send(JSON.stringify(rows))
+		} catch (err) {
+				console.error(err.message);
+		}
+});
 
 /*******************************************************************************************************************/
 
