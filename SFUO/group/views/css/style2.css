@@ -1,6 +1,9 @@
+
 body {
 	display: grid;
 	place-items: center;
+	padding: 50px;
+	background-color: #313131;
 }
 
 
@@ -24,9 +27,14 @@ li {
 	grid:
 		'channels channel-title' 71px
 		'channels-list discussions' 1fr
-		'block channel-form' 78px
+		'block channel-form' 0px
 		/ 275px 1fr;
 	overflow: hidden;
+}
+
+.channel-container body {
+	display: grid;
+	place-items: center;
 }
 
 .channels {
@@ -71,12 +79,6 @@ li {
 }
 
 
-.channel-form {
-	background: #3a3a3a;
-	border-radius: 0 0 10px 0;
-	box-shadow: 0 1px 3px 1px rgba(0,0,0,0.75);
-}
-
 .discussions {
 	grid-area: discussions;
 	background-color: #313131;
@@ -84,28 +86,63 @@ li {
 	overflow-y: scroll;
 }
 
-.discussions .message {
-	padding: 10px;
-	margin-bottom: 15px;
-	background-color: #e6e9ff;
-	border-radius: 5px;
-	overflow-wrap: break-word;
+
+
+.discussions body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #005877;
+
+}
+
+.discussions a {
+  color: #53899e;
 }
 
 
-.channel-form {
-	display: grid;
-	grid-template-columns: 12fr 1fr;
-	grid-gap: 15px;
-	grid-area: channel-form;
-	padding: 20px 30px;
+.discussions ul li {
+  margin-bottom: 20px;
+  box-shadow: 0 3px 7px #00577759;
+  padding: 10px;
+  border-radius: 5px;
+  width: 320px;
+  transition: 0.2s ease;
+  position: relative;
+  left: 0;
+  font-size: 1em;
 }
 
-.channel-form input [type='text'] {
-	font-size: 16px;
-	padding: 5px;
+.discussions ul li:hover {
+  left: 5px;
 }
 
-.channel-form button {
-	width: 77px;
+sub {
+  /* font-weight: bold; */
+  /* color: rgb(138, 138, 138); */
+  opacity: 0.7;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #dbdbdb;
+  width: 3fr;
+  margin-bottom: 15px;
+  transition: 0.2s ease;
+}
+
+input:focus {
+  outline: none;
+  box-shadow: 0px 2px 5px #00577759;
+}
+
+input[type='submit'] {
+  background-color:  #53899e;
+  color: white;
+  height: 30px;
 }
