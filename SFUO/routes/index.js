@@ -3,4 +3,10 @@ const router = express.Router();
 
 router.get('/',(req,res) => res.render('home')); //redirects to home page
 
+/* GET users listing. */
+router.get('/channel_page', function(req, res, next) {
+  res.send('respond with a resource');
+});
+
+
 module.exports = router;
