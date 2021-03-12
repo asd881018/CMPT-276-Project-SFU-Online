@@ -37,7 +37,7 @@ const socketio = require('socket.io');
 const formatMessage = require('./messages')   
 
 //postgres stuff
-// const {messagepool} = require ('./message/utils/dbConfig');
+
 
 const server = http.createServer(app);
 const io = socketio(server);
@@ -140,14 +140,12 @@ app.use(passport.session());
 app.use(flash());
 
 
-//Routes
-app.use('/',require('./routes/index')); // must use this in tandem with router.get in index.js
-
-app.use('/users', require('./routes/users')); // to go to this link, go to users/login, users/register
 
 
 
-// register page login
+
+/******************************************Register**************************************************/
+
 app.post('/users/register', async (req, res) =>{
 	let{name, email, password, password2 } = req.body;
 	console.log({
@@ -211,7 +209,7 @@ app.post('/users/register', async (req, res) =>{
 
 /*******************************************Dashboard*************************************************/
 
-app.post("/users/dashboard",(req,res)=>{
+app.post("/users/dashboard", async (req,res)=>{
 	let {firstname, lastname, username, biography, year, courses}=req.body;
 	console.log({
 		firstname,
@@ -237,7 +235,7 @@ app.post("/users/dashboard",(req,res)=>{
 	}
 	
 	pool.query (
-		`INSERT INTO users (firstname, lastname, username, biography, year, courses)
+		`INSERT INTO info (firstname, lastname, username, biography, year, courses)
 		VALUES ($1, $2, $3, $4, $5, $6)`,[firstname,lastname,username, biography, year, courses]
 	)
 
@@ -245,8 +243,15 @@ app.post("/users/dashboard",(req,res)=>{
 });
 
 
+/*******************************************************Groups and Channels*****************************************/
+//Routes
+app.use('/',require('./routes/index')); // must use this in tandem with router.get in index.js
+
+app.use('/users', require('./routes/users')); // to go to this link, go to users/login, users/register
 
 
+
+/*******************************************************************************************************************/
 
 app.post('/users/login', passport.authenticate('local',{
 	successRedirect: '/users/dashboard',
