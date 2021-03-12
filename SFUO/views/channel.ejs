@@ -21,16 +21,17 @@
     <div class="channels">
       <h5><i class="fas fa-users"></i> Channels</h5>
     </div>
+    <div class="channels-list">
+      <ul class="channels-list" id = "list_channel">
 
-    <ul class="channels-list" id="list_channel">
-
-    </ul>
-
+      </ul>
+    </div>
 
     <div class="block">
     </div>
 
 
+    <!-- <form class="add-channels"> </form> -->
     <div class="add-channels">
       <input type="channel_name" id="channel_name" name="channel_name" class="form-control"
         placeholder="Enter Channel name" />
@@ -38,10 +39,9 @@
       <button id='btnCreate' class="btn btn-primary btn-block" onclick="create()">
         Create Channel
       </button>
-
     </div>
-    <div>
 
+    <div>
       <script>
         const btnCreate = document.getElementById("btnCreate")
         btnCreate.addEventListener("click", async e => {
@@ -54,29 +54,30 @@
             headers: { "content-type": "application/json" }, body: JSON.stringify(jsonRequest)
           })
           var ul = document.createElement("ul")
-          ul.innerHTML += "<a href=channel_page>" + jsonRequest.channel_name + "</a>";
+          ul.innerHTML += "<a href = users/channel_page/" + jsonRequest.channel_name +">" + jsonRequest.channel_name + "</a>"
           list_channel.appendChild(ul)
 
         })
 
         readChannels();
         async function readChannels() {
-          try {
-            const list_channel = document.getElementById("list_channel")
+              try{
+                  const list_channel = document.getElementById("list_channel")
 
-            let result = await fetch("http://localhost:3000/channel", { method: "GET" })
-            const channel = await result.json();
-            channel.forEach(t => {
-              console.log(t)
-              var ul = document.createElement("ul")
-              ul.innerHTML += "<a href=channel_page>" + t.channel_name + "</a>";
-              list_channel.appendChild(ul)
-            })
+                  let result = await fetch("http://localhost:3000/channel", {method:"GET"})
+                  const channel = await result.json();
+                  channel.forEach(t=>
+                  {
+                      console.log(t)
+                      var ul = document.createElement("ul")
+                      ul.innerHTML += "<a href = users/channel_page/" + t.channel_name +">" + t.channel_name + "</a>"
+                      list_channel.appendChild(ul)
+                  })
+              }
+              catch(e) {
+                console.log("error");
+              }
           }
-          catch (e) {
-            console.log("error");
-          }
-        }
       </script>
     </div>
 
@@ -93,6 +94,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
     integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
     crossorigin="anonymous"></script>
+
 </body>
 
 </html>
