@@ -28,7 +28,7 @@ function updateUsername(temp){
 }
 module.exports.updateUsername = updateUsername;
 
-// app.use(express.static(__dirname + './views/main.js'));
+ app.use(express.static(__dirname + './views/main.js'));
 app.use(express.static(__dirname + './views/css/stylemessage.css'));
 
 const path = require('path');
@@ -76,8 +76,47 @@ io.on('connection', socket => {
 	});
 
 });
-/*********************************************************************************************************************/
+/********************************************Video**********************************************************/
 
+
+const {v4: uuidv4 } = require('uuid'); // import a certain version of uuid (v4), set and import uuid
+const { ExpressPeerServer } = require('peer'); // import peer
+const peerServer = ExpressPeerServer(server, { // using peer with express to get functionality
+
+  debug: true
+}); 
+
+app.use(express.static('public')); //accesses public folder
+
+
+// url to access peerserver
+app.use('/peerjs', peerServer);// in room.ejs pasted this <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+
+app.get('/room', (req, res) =>{
+	res.redirect(`/${uuidv4()}`); // this line will automatically generate a uuid and redirect you to uuid link
+})
+
+// the root url takes you to page where it renders the room.ejs file
+app.get('/:room', (req, res) =>{ // /:room is a parameter
+	res.render('room', {roomId: req.params.room }) // roomID: is the uuid of the room
+}) 
+
+// connect to socket io
+io.on('connection', socket => {
+	socket.on('join-room',(roomId,userId)=>{ // sends message of joined room, then link it to a roomid to join room
+		socket.join(roomId);// pass in roomID into socket.join to make it join room
+		socket.to(roomId).broadcast.emit('user-connected', userId);// tells that we have a user connected and tells system we have a userID
+		socket.on('message', message =>{ // will recieve the message, (function with message params)
+			io.to(roomId).emit('createMessage', message); // send this message to the joined room, emit a message -> (in script.js under // receive msg)
+		}) 
+
+	})
+})
+
+
+
+
+/***********************************************************************************************************/
 
 //EJS
 app.use(expressLayouts);
@@ -169,6 +208,44 @@ app.post('/users/register', async (req, res) =>{
 		);
 	} 
 });
+
+/*******************************************Dashboard*************************************************/
+
+app.post("/users/dashboard",(req,res)=>{
+	let {firstname, lastname, username, biography, year, courses}=req.body;
+	console.log({
+		firstname,
+		lastname,
+		username,
+		biography,
+		year,
+		courses,
+	});
+	let errors=[];
+
+	if(!firstname || !lastname || !username || !biography ||!year ||!courses){
+		errors.push({message: "Please enter all fields!"});
+	}
+
+	if(username.length < 5){
+		errors.push({message: "Password should be at least 5 chacters long!"});
+	}
+
+
+	if (errors.length > 0){
+		res.render('dashboard', {errors});
+	}
+	
+	pool.query (
+		`INSERT INTO users (firstname, lastname, username, biography, year, courses)
+		VALUES ($1, $2, $3, $4, $5, $6)`,[firstname,lastname,username, biography, year, courses]
+	)
+
+
+});
+
+
+
 
 
 app.post('/users/login', passport.authenticate('local',{
