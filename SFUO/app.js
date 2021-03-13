@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 const expressLayouts = require('express-ejs-layouts');
 
 //Postgres setup
@@ -17,7 +18,10 @@ initializePassport(passport);
 
 
 // group loading
+app.use('/static',express.static(__dirname + '/static')); //accesses public folder
 app.use(express.static(__dirname + '/views'));
+
+
 
 
 
@@ -31,7 +35,6 @@ module.exports.updateUsername = updateUsername;
  app.use(express.static(__dirname + './views/main.js'));
 app.use(express.static(__dirname + './views/css/stylemessage.css'));
 
-const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
 const formatMessage = require('./messages')
@@ -82,22 +85,21 @@ io.on('connection', socket => {
 const {v4: uuidv4 } = require('uuid'); // import a certain version of uuid (v4), set and import uuid
 const { ExpressPeerServer } = require('peer'); // import peer
 const peerServer = ExpressPeerServer(server, { // using peer with express to get functionality
-
   debug: true
 });
 
-app.use(express.static('public')); //accesses public folder
+
 
 
 // url to access peerserver
 app.use('/peerjs', peerServer);// in room.ejs pasted this <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
 
 app.get('/room', (req, res) =>{
-	res.redirect(`/${uuidv4()}`); // this line will automatically generate a uuid and redirect you to uuid link
+	res.redirect(`/room/${uuidv4()}`); // this line will automatically generate a uuid and redirect you to uuid link
 })
 
 // the root url takes you to page where it renders the room.ejs file
-app.get('/:room', (req, res) =>{ // /:room is a parameter
+app.get('/room/:room', (req, res) =>{ // /:room is a parameter
 	res.render('room', {roomId: req.params.room }) // roomID: is the uuid of the room
 })
 

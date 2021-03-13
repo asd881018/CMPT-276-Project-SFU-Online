@@ -4,10 +4,13 @@ const { Pool } = require('pg');
 
 const isProduction = process.env.NODE_ENV === "production";
 
-const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}` // user variable in env
+const connectionString = `postgres://mtqdanyrvlrcwq:6cc163c3af3becc6caf44163dc91dd105228933f5f500e158d79aa1408d47960@ec2-54-162-119-125.compute-1.amazonaws.com:5432/db5bvst2limdhb` // user variable in env
 
 const pool  = new Pool({
-	connectionString: isProduction ? process.env.DATABASE_URL : connectionString
+	connectionString,
+	ssl: {
+		rejectUnauthorized: false
+	}
 });
 
 module.exports = { pool };
