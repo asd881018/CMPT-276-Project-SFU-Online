@@ -10,8 +10,9 @@ router.get('/register', checkAuthenticated, (req,res) => res.render('register'))
 router.get('/dashboard', checkNotAuthenticated, (req,res) => res.render('dashboard',{user: req.user.name })); // renders dashboard/account
 // if we need to bypass to dashboard, comment out checkNotAuthenticated
 
-//messagebox, redirects you to message system
-router.get('/messagebox', (req, res) => res.render('messagebox'));
+//messagebox, redirects you to message system **************************************************
+router.get('/message', (req, res) => res.render('index', {user: req.user.name}));
+router.get('/message/chat',(req,res) => res.render('chat', {user: req.user.name})); //redirects to chat
 
 //group
 router.get('/channel', (req, res) => res.render('channel'));
