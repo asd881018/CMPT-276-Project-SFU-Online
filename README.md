@@ -1,6 +1,19 @@
 # SFU Online
+<img width="1409" alt="image" src="https://github.com/asd881018/SFU-Online/assets/84098790/746f17aa-31ca-488f-8995-7290abd35699">
+<img width="1429" alt="image" src="https://github.com/asd881018/SFU-Online/assets/84098790/a6d16196-8840-4218-bfb4-18b6e60ab502">
+<img width="1428" alt="image" src="https://github.com/asd881018/SFU-Online/assets/84098790/01a3d8ad-b713-4e8c-ab30-6a4411b8f74d">
+<img width="1410" alt="image" src="https://github.com/asd881018/SFU-Online/assets/84098790/ce50bf6a-864d-43e3-98d2-7e060ce5ef4b">
+<img width="1424" alt="image" src="https://github.com/asd881018/SFU-Online/assets/84098790/04f462f4-9d8d-4366-9591-40bd80b091d0">
+<img width="1419" alt="image" src="https://github.com/asd881018/SFU-Online/assets/84098790/65db4e2c-63f6-44cb-8b6f-3ee875216ee3">
+<img width="1432" alt="image" src="https://github.com/asd881018/SFU-Online/assets/84098790/b9983eaa-986d-490d-bc34-a50f8b7e1836">
+<img width="1426" alt="image" src="https://github.com/asd881018/SFU-Online/assets/84098790/6a483b93-17c5-481c-ba4d-66182e369f3b">
 
-**Project Name:** SFU Online
+
+
+
+
+
+
 
 ## Abstract
 Due to the Covid-19 pandemic, educational institutions have moved to online learning, limiting student interaction. SFU Online is a web application designed to connect SFU students, professors, and teaching assistants virtually, compensating for the lack of physical campus interaction. This platform facilitates communication through discussion boards, chat rooms, and group channels, making the online learning experience more interactive and supportive.
